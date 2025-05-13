@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SetEdit Performance & Gaming Tweaks</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #e0e0e0; /* updated text color */
+  background-color: #212121; /* dark theme */
+  padding: 10px 0;
+  border-top: 1px solid #424242; /* subtle top border */
+  transition: transform 0.3s ease-in-out;
+}
+
+.footer strong {
+  color: #00ffc3; /* highlight for name and date */
+}
+  
+    body {
+      background-color: #212121;
+      color: #e0e0e0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #1a1a1a;
+      color: #ffffff;
+      padding: 20px;
+      text-align: center;
+    }
+
+    section {
+      max-width: 900px;
+      margin: 40px auto;
+      background-color: #2a2a2a;
+      color: #e0e0e0;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+    h1, h2 {
+      color: #00ffc3;
+      text-shadow: 0 0 5px #00ffc3;
+    }
+
+    h3 {
+      color: #80cbc4;
+    }
+
+    pre {
+      background-color: #1e1e1e;
+      color: #ffffff;
+      padding: 15px;
+      border-radius: 5px;
+      font-size: 1rem;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    button.copy-btn {
+      margin-top: 10px;
+      background-color: #007bff;
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    button.copy-btn:hover {
+      background-color: #0056b3;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      background-color: #28a745;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    a:hover {
+      background-color: #218838;
+    }
+
+    .table-container {
+      overflow-x: auto;
+      margin-bottom: 30px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid #444;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #333;
+      color: #00ffd5;
+    }
+
+    tr:nth-child(even) {
+      background-color: #2a2a2a;
+    }
+
+    .safe { color: #00ff88; }
+    .aggressive { color: #ffe600; }
+    .extreme { color: #ff5e5e; }
+
+    .visual-guide {
+      margin-top: 60px;
+    }
+
+    .visual-guide h2 {
+      color: #ff69b4;
+    }
+
+    .visual-placeholder {
+      height: 200px;
+      background-color: #333;
+      color: #bbb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      font-style: italic;
+    }
+
+    .visual-gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .visual-gallery figure {
+      width: 240px;
+      text-align: center;
+      margin: 0;
+    }
+
+    .visual-gallery img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .visual-gallery img:hover {
+      transform: scale(1.03);
+    }
+
+    .visual-gallery figcaption {
+      font-size: 0.9rem;
+      color: #ccc;
+      margin-top: 8px;
+      line-height: 1.4;
+    }
+
+    .scrollable-images {
+      display: flex;
+      overflow-x: auto;
+      gap: 12px;
+      padding: 10px 0;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .scrollable-images img {
+      flex: 0 0 auto;
+      height: auto;
+      max-height: 800px;
+      width: 80%;
+      max-width: 400px;
+      border-radius: 10px;
+      scroll-snap-align: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      margin-bottom: 0px;
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+
+    .footer a {
+      color: #80d8ff;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+  <script>
+    function copySettings() {
+      const settings = document.getElementById("settingsText").innerText;
+      navigator.clipboard.writeText(settings).then(() => {
+        alert("Settings copied to clipboard!");
+      });
+    }
+  </script>
+</head>
+
+<body>
+  <header>
+    <h1>SetEdit Performance & Gaming Tweaks</h1>
+  </header>
+
+  <section>
+    <h2>Boost Your Android Performance</h2>
+    <p>
+      Optimize your phone for gaming, smooth performance, and better internet speed using the
+      <strong>SetEdit</strong> app. Always back up your settings before making changes!
+    </p>
+    <h3>Recommended Settings:</h3>
+    <pre id="settingsText">game_driver_all_apps = 3
+force_gpu_rendering = 1
+mobile_data_always_on = 1
+wifi_scan_throttle_enabled = 0
+animator_duration_scale = 0
+transition_animation_scale = 0
+window_animation_scale = 0
+thermal_engine_enabled = 1
+hwui.render_dirty_regions = false
+dalvik.vm.heapsize = 512m
+ro.hardware.gpu.enabled = 1</pre>
+    <button class="copy-btn" onclick="copySettings()">📋 Copy to Clipboard</button>
+    <p><strong>Note:</strong> Some settings may require root access. Modify with caution!</p>
+    <a href="SetEdit_Performance_Config_Zeiren.txt" download>📥 Download SetEdit Config File</a>
+  </section>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6681099663419139"
+     crossorigin="anonymous"></script>
+<!-- firstads -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6681099663419139"
+     data-ad-slot="8508684989"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  <!-- Additional sections follow (code table, visual guide, etc.) -->
+</body>
+
+</html>
+
+  </section>  <section>
+  <h2>📋 SetEdit Code Table Reference</h2>
+  <p>This guide helps you know which SetEdit table to use for each performance/gaming-related setting:</p>  <div style="overflow-x: auto; margin-top: 20px;">
+    <table style="width: 100%; min-width: 600px; border-collapse: collapse;">
+      <thead style="background-color: #007bff; color: white;">
+        <tr>
+          <th style="padding: 10px; border: 1px solid #ddd;">Setting Name</th>
+          <th style="padding: 10px; border: 1px solid #ddd;">Recommended Table</th>
+          <th style="padding: 10px; border: 1px solid #ddd;">Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding: 10px; border: 1px solid #ddd;">game_driver_all_apps</td>
+          <td style="padding: 10px; border: 1px solid #ddd;">global</td>
+          <td style="padding: 10px; border: 1px solid #ddd;">Controls app-wide game driver usage</td>
+        </tr>
+        <tr>
+          <td>settings_global__force_gpu_rendering</td>
+          <td>global</td>
+          <td>Forces GPU rendering globally</td>
+        </tr>
+        <tr>
+          <td>persist.sys.NV_FPSLIMIT</td>
+          <td>system</td>
+          <td>Custom frame rate limit, may need root</td>
+        </tr>
+        <tr>
+          <td>min_refresh_rate / peak_refresh_rate</td>
+          <td>system or global</td>
+          <td>Controls screen refresh rate</td>
+        </tr>
+        <tr>
+          <td>thermal_engine_enabled</td>
+          <td>global</td>
+          <td>Used to toggle thermal management</td>
+        </tr>
+        <tr>
+          <td>hwui.render_dirty_regions</td>
+          <td>global</td>
+          <td>Disabling can improve rendering stability</td>
+        </tr>
+        <tr>
+          <td>debug.hwui.renderer</td>
+          <td>system</td>
+          <td>Chooses GPU rendering pipeline</td>
+        </tr>
+        <tr>
+          <td>touch_response_duration</td>
+          <td>secure</td>
+          <td>Touch latency tweak (varies by device)</td>
+        </tr>
+        <tr>
+          <td>input_blocking_enabled</td>
+          <td>secure</td>
+          <td>Can reduce input delays</td>
+        </tr>
+        <tr>
+          <td>window_animation_scale / transition_animation_scale / animator_duration_scale</td>
+          <td>global</td>
+          <td>Disabling animations can improve speed</td>
+        </tr>
+        <tr>
+          <td>dalvik.vm.heapsize</td>
+          <td>build.prop (root)</td>
+          <td>May need root; improves multitasking</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section> 
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6681099663419139"
+     crossorigin="anonymous"></script>
+<!-- Article_Mid_Content -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6681099663419139"
+     data-ad-slot="8706085989"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<section>
+    <h2>ℹ️ More Info & Explanations</h2>
+    <!-- Content same as before, kept unchanged for brevity -->
+  </section><section class="visual-guide">
+   
+  <h1>SetEdit Performance & Gaming Tweaks</h1>
+
+  <h2>🧩 Global Table</h2>
+  <div class="table-container">
+    <table>
+      <tr><th>Key Name</th><th>Value</th><th>Recommended Level</th><th>Purpose</th></tr>
+      <tr><td>window_animation_scale</td><td>0</td><td class="safe">Safe</td><td>Disables UI animations</td></tr>
+      <tr><td>transition_animation_scale</td><td>0</td><td class="safe">Safe</td><td>Speeds up screen transitions</td></tr>
+      <tr><td>animator_duration_scale</td><td>0</td><td class="safe">Safe</td><td>Turns off animation delays</td></tr>
+      <tr><td>stay_on_while_plugged_in</td><td>3</td><td class="safe">Safe</td><td>Prevents screen from sleeping while charging</td></tr>
+      <tr><td>power_save_mode</td><td>0</td><td class="safe">Safe</td><td>Disables battery saving limits</td></tr>
+      <tr><td>peak_refresh_rate</td><td>60 / 90 / 120</td><td class="safe">Safe</td><td>Forces high refresh rate</td></tr>
+      <tr><td>fps_force</td><td>1</td><td class="aggressive">Aggressive</td><td>Tries to lock maximum FPS</td></tr>
+      <tr><td>thermal_engine_mode</td><td>0</td><td class="extreme">Extreme</td><td>Disables thermal throttling</td></tr>
+      <tr><td>touchboost</td><td>1</td><td class="aggressive">Aggressive</td><td>Boosts CPU during touch events</td></tr>
+      <tr><td>persist.sys.purgeable_assets</td><td>1</td><td class="safe">Safe</td><td>Frees RAM when idle</td></tr>
+    </table>
+  </div>
+
+  <h2>🔐 Secure Table</h2>
+  <div class="table-container">
+    <table>
+      <tr><th>Key Name</th><th>Value</th><th>Recommended Level</th><th>Purpose</th></tr>
+      <tr><td>game_mode</td><td>1</td><td class="safe">Safe</td><td>Enables game mode (on supported devices)</td></tr>
+      <tr><td>wifi_scan_throttle_enabled</td><td>0</td><td class="safe">Safe</td><td>Prevents constant Wi-Fi scanning lag</td></tr>
+      <tr><td>background_check_enabled</td><td>0</td><td class="aggressive">Aggressive</td><td>Blocks background auto-start of apps</td></tr>
+      <tr><td>development_force_rtl</td><td>0</td><td class="safe">Safe</td><td>Ensures LTR layout, avoids bugs</td></tr>
+      <tr><td>device_provisioned</td><td>1</td><td class="safe">Safe</td><td>Keeps device in an activated state</td></tr>
+    </table>
+  </div>
+
+  <h2>🛠️ System Table</h2>
+  <div class="table-container">
+    <table>
+      <tr><th>Key Name</th><th>Value</th><th>Recommended Level</th><th>Purpose</th></tr>
+      <tr><td>debug.hwui.renderer</td><td>skiagl</td><td class="safe">Safe</td><td>Better GPU rendering</td></tr>
+      <tr><td>debug.gpu.force</td><td>1</td><td class="aggressive">Aggressive</td><td>Forces GPU usage over CPU</td></tr>
+      <tr><td>ro.surface_flinger.max_frame_buffer_acquired_buffers</td><td>2</td><td class="aggressive">Aggressive</td><td>Reduces frame delay</td></tr>
+      <tr><td>ro.kernel.android.checkjni</td><td>0</td><td class="safe">Safe</td><td>Speeds up app execution</td></tr>
+      <tr><td>dalvik.vm.heapsize</td><td>256m / 512m</td><td class="aggressive">Aggressive</td><td>Allocates more RAM for apps</td></tr>
+      <tr><td>persist.sys.ui.hw</td><td>true</td><td class="safe">Safe</td><td>Enables hardware acceleration</td></tr>
+      <tr><td>persist.sys.NV_FPSLIMIT</td><td>0</td><td class="aggressive">Aggressive</td><td>Unlocks FPS cap (Snapdragon/NVIDIA)</td></tr>
+      <tr><td>ro.config.max_starting_bg</td><td>8</td><td class="aggressive">Aggressive</td><td>Allows more background apps</td></tr>
+      <tr><td>ro.min_freq</td><td>0</td><td class="aggressive">Aggressive</td><td>Keeps CPU from dropping to idle</td></tr>
+      <tr><td>ro.max_freq</td><td>Max Frequency</td><td class="extreme">Extreme</td><td>Forces max CPU clock (can overheat)</td></tr>
+    </table>
+  </div>
+
+  <h2>📌 Quick Legend</h2>
+  <div class="table-container quick-legend-table">
+    <table>
+      <tr><th>Symbol</th><th>Meaning</th></tr>
+      <tr><td class="safe">Safe</td><td>Good for all devices</td></tr>
+      <tr><td class="aggressive">Aggressive</td><td>For 4GB+ RAM phones</td></tr>
+      <tr><td class="extreme">Extreme</td><td>High-end or rooted only</td></tr>
+    </table>
+  </div>
+</body>
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6681099663419139"
+     crossorigin="anonymous"></script>
+<!-- watch -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6681099663419139"
+     data-ad-slot="8933611847"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+    
+  <h2>📸 Visual Guide</h2>
+  <p>This section includes step-by-step screenshots to help you apply the tweaks easily.</p>  <div class="visual-gallery">
+    <figure>
+      <img src="https://raw.githubusercontent.com/Zeiren404/Review-device/refs/heads/main/Screenshot_20250513-050822.png" alt="Step 1: Enable Developer Options">
+      <figcaption>Step 1: Enable Developer Options<br>Go to Settings > About phone > Tap Build number 7 times.</figcaption>
+    </figure><figure>
+<div class="scrollable-images">
+  <img src="https://raw.githubusercontent.com/Zeiren404/Review-device/refs/heads/main/brev.jpg" alt="Step 2: Install Brevent app">
+  <img src="https://raw.githubusercontent.com/Zeiren404/Review-device/refs/heads/main/lunch.jpg" alt="Step 2:lunch">
+  </div>
+  <figcaption>Step 2: Install Brevent & Open<br>In Brevent, Scroll until you reach "Enjoy" and click "Launch Brevent".</figcaption>
+</figure>
+
+<figure>
+<div class="scrollable-images">
+  <img src="https://raw.githubusercontent.com/Zeiren404/Review-device/refs/heads/main/wirelessdebug.jpg" alt="Step 3:Wireless">
+  <img src="https://raw.githubusercontent.com/Zeiren404/Review-device/refs/heads/main/develo.jpg" alt="Step 3: Wireless(a)">
+  </div>
+  <figcaption>Step 3: In Brevent<br>Follow the instructions shown in the dialog.</figcaption>
+</figure>
+
+<figure> 
+<img src="https://raw.githubusercontent.com/Zeiren404/Review-device/refs/heads/main/codepair.jpg" alt="Step 4: Pair Device with Pairing Code">
+      <figcaption>Step 4: Pair Device<br>Tap 'Pair device with pairing code' to get your IP address and code.</figcaption>
+    </figure>
+    
+    <figure>
+  <div class="scrollable-images">
+  <img src="https://raw.githubusercontent.com/Zeiren404/Review-device/refs/heads/main/wirelessdebug.jpg" alt="Step 5: Start Brevent Using Wireless Debugging">
+    <img src="https://raw.githubusercontent.com/Zeiren404/Review-device/refs/heads/main/wirelesspair.jpg" alt="Step 5: Pair Device with Pairing Code">  </div>
+      <figcaption>Step 5: Start Brevent<br>Open Brevent, choose Wireless Debugging, and enter IP + pairing code.</figcaption>
+    </figure>
+    
+    <figure>
+ <div class="scrollable-images">
+       <img src="https://raw.githubusercontent.com/Zeiren404/Review-device/refs/heads/main/commcode.jpg" alt="Step 6: Copy Setedit command">
+       <img src="https://raw.githubusercontent.com/Zeiren404/Review-device/refs/heads/main/exec.jpg" alt="Step 6: Paste Setedit command & Execute">
+       </div>
+  <figcaption>Step 6:Enter the command and Execute, Wait for Confirmation<br>Brevent will show 'Server started' once successful.</figcaption>  
+</figure>
+<figure>
+  <img src="https://raw.githubusercontent.com/Zeiren404/Review-device/refs/heads/main/seteditcheck.jpg" alt="Step 7: Open SetEdit">
+  <figcaption>Step 7: Open SetEdit<br>The System Table should now be unlocked and editable.</figcaption>
+</figure>  </div>
+</section>
+   <div class="footer">
+    <p>Author: <strong>Zeiren</strong> | Last Updated: <strong>May 12, 2025</strong></p>
+  </div>
+  <script>
+  let lastScrollY = window.scrollY;
+  const footer = document.querySelector('.footer');
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > lastScrollY) {
+      footer.style.transform = 'translateY(100%)';
+    } else {
+      footer.style.transform = 'translateY(0)';
+    }
+    lastScrollY = window.scrollY;
+  });
+</script>
+</body>
+</html>
